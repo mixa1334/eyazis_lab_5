@@ -5,7 +5,7 @@ import speech_recognition as sr
 def text_to_speech(text, voice_str, rate_str, volume_str):
     engine = pyttsx3.init()
 
-    voice_dict = {'Male': 2, 'Female': 1}
+    voice_dict = {'Male': 0, 'Female': 1}
     voices = engine.getProperty('voices')
     voice = voices[voice_dict[voice_str]].id
     engine.setProperty('voice', voice)
@@ -28,10 +28,13 @@ def text_to_speech(text, voice_str, rate_str, volume_str):
 def recognize_speech(text):
     result = ""
     recognizer = sr.Recognizer()
-    with sr.Microphone() as source:
+    # names = sr.Microphone.list_microphone_names()
+    # for n in names:
+    #     print(n)
+    with sr.Microphone(device_index=1) as source:
         print('Listeting...')
         audio = recognizer.listen(source)
-        
+
     try:
         out_text = recognizer.recognize_google(audio, language='en-US')
         out_text = out_text.lower()
