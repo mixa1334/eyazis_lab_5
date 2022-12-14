@@ -3,7 +3,7 @@ import pyttsx3
 def text_to_speech(text, voice_str, rate_str, volume_str):
     engine = pyttsx3.init()
 
-    voice_dict = {'Male': 0, 'Female': 1}
+    voice_dict = {'Male': 2, 'Female': 1}
     voices = engine.getProperty('voices')
     voice = voices[voice_dict[voice_str]].id
     engine.setProperty('voice', voice)
