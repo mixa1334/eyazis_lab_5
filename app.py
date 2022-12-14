@@ -1,8 +1,12 @@
 from flask_cors import cross_origin
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, flash
 import logic
 
 app = Flask(__name__)
+app.secret_key = "manbearpig_MUDMAN888"
+
+recognize_result_str = ""
+speech_text = "no text to speech"
 
 @app.route('/')
 @app.route('/info')
@@ -15,11 +19,22 @@ def info():
 @cross_origin()
 def speech():
     if request.method == 'POST':
-        text = request.form['text']
+        global speech_text
+        speech_text = request.form['text']
         voice = request.form['voice']
         rate = request.form['rate']
         volume = request.form['volume']
-        logic.text_to_speech(text, voice, rate, volume)
-        return render_template('speech.html')
-    else:
-        return render_template('speech.html')
+        logic.text_to_speech(speech_text, voice, rate, volume)
+
+    flash(str(speech_text))
+    return render_template('speech.html')
+
+@app.route('/recognize', methods=['POST', 'GET'])
+@cross_origin()
+def recognize():
+    if request.method == 'POST':
+        global recognize_result_str
+        recognize_result_str = logic.recognize_speech(speech_text)
+    
+    flash(str(recognize_result_str))
+    return render_template('recognize.html')

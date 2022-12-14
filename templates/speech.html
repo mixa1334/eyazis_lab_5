@@ -15,6 +15,7 @@
           <nav class="navbar navbar-inverse">
               <div class="container-fluid">
                 <ul class="nav navbar-nav">
+                  <li><a href="http://localhost:5000/recognize">Анализ речи</a></li>
                   <li><a href="http://localhost:5000/info">Информация</a></li>
                 </ul>
               </div>
@@ -23,7 +24,12 @@
       </header>
       <main>
         <div class="container">
-          <h1>Система анализа и синтеза речи</h1>
+          <h1>Синтез речи</h1>
+          <hr>
+          <h3>Предыдущий текст:</h3>
+          {% for message in get_flashed_messages() %}
+              <p>{{ message }}</p>
+          {% endfor %}
           <form action="speech" id="voice-form" method="post">
             <div class="form-group">
               <label for="text" class="form-label">Введите текст</label>
@@ -56,7 +62,7 @@
               </select>
             </div>
   
-            <input type="submit" class="btn btn-primary" value="Начать">
+            <input type="submit" class="btn btn-primary" value="Синтез">
           </form>
         </div>
       </main>
